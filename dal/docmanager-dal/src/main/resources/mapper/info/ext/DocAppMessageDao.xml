@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhaoyun.docmanager.dal.dao.ext.DocAppMessageDao">
+	<select id="queryAllByAppId" resultMap="com.zhaoyun.docmanager.dal.dao.MBGDocAppMessageDao.BaseResultMap">
+		select
+		<include refid="com.zhaoyun.docmanager.dal.dao.MBGDocAppMessageDao.Base_Column_List" />
+		from `doc_app_message`
+		where `app_id` = #{appId,jdbcType=INTEGER}
+		<if test="sortColumn != null and sortColumn != ''">
+			ORDER BY ${sortColumn}
+			<if test="sortType != null and sortType != ''">
+				${sortType}
+			</if>
+		</if>
+	</select>
+	
+	<select id="queryAllWithBLOBsByAppId" resultMap="com.zhaoyun.docmanager.dal.dao.MBGDocAppMessageDao.ResultMapWithBLOBs">
+		select
+		<include refid="com.zhaoyun.docmanager.dal.dao.MBGDocAppMessageDao.Base_Column_List" />,
+		<include refid="com.zhaoyun.docmanager.dal.dao.MBGDocAppMessageDao.Blob_Column_List" />
+		from `doc_app_message`
+		where `app_id` = #{appId,jdbcType=INTEGER}
+		<if test="sortColumn != null and sortColumn != ''">
+			ORDER BY ${sortColumn}
+			<if test="sortType != null and sortType != ''">
+				${sortType}
+			</if>
+		</if>
+	</select>
+	
+	<update id="batchReplace" parameterType="java.util.List">
+    	<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+			REPLACE into `doc_app_message`
+		    <trim prefix="(" suffix=")" suffixOverrides="," >
+		      <if test="item.id != null" >
+		        `id`,
+		      </if>
+		      <if test="item.appId != null" >
+		        `app_id`,
+		      </if>
+		      <if test="item.topic != null" >
+		        `topic`,
+		      </if>
+		      <if test="item.messageType != null" >
+		        `message_type`,
+		      </if>
+		      <if test="item.messageObjectName != null" >
+		        `message_object_name`,
+		      </if>
+		      <if test="item.desc != null" >
+		        `desc`,
+		      </if>
+		      <if test="item.cause != null" >
+		        `cause`,
+		      </if>
+		      <if test="item.createTime != null" >
+		        `create_time`,
+		      </if>
+		      <if test="item.createPerson != null" >
+		        `create_person`,
+		      </if>
+		      <if test="item.updateTime != null" >
+		        `update_time`,
+		      </if>
+		      <if test="item.updatePerson != null" >
+		        `update_person`,
+		      </if>
+		      <if test="item.messageObjectJson != null" >
+		        `message_object_json`,
+		      </if>
+		    </trim>
+		    <trim prefix="values (" suffix=")" suffixOverrides="," >
+		      <if test="item.id != null" >
+		        #{item.id,jdbcType=INTEGER},
+		      </if>
+		      <if test="item.appId != null" >
+		        #{item.appId,jdbcType=INTEGER},
+		      </if>
+		      <if test="item.topic != null" >
+		        #{item.topic,jdbcType=VARCHAR},
+		      </if>
+		      <if test="item.messageType != null" >
+		        #{item.messageType,jdbcType=VARCHAR},
+		      </if>
+		      <if test="item.messageObjectName != null" >
+		        #{item.messageObjectName,jdbcType=VARCHAR},
+		      </if>
+		      <if test="item.desc != null" >
+		        #{item.desc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="item.cause != null" >
+		        #{item.cause,jdbcType=VARCHAR},
+		      </if>
+		      <if test="item.createTime != null" >
+		        #{item.createTime,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="item.createPerson != null" >
+		        #{item.createPerson,jdbcType=VARCHAR},
+		      </if>
+		      <if test="item.updateTime != null" >
+		        #{item.updateTime,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="item.updatePerson != null" >
+		        #{item.updatePerson,jdbcType=VARCHAR},
+		      </if>
+		      <if test="item.messageObjectJson != null" >
+		        #{item.messageObjectJson,jdbcType=LONGVARCHAR},
+		      </if>
+		    </trim>
+		</foreach>
+	</update>
+	
+	<delete id="batchDelete" parameterType="java.util.List">
+		delete from `doc_app_message`
+		where id in
+		<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+</mapper>

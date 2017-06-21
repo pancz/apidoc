@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE configuration>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <contextName>docmanager</contextName>
+    <property name="LOG_CHARSET" value="UTF-8"/>
+    <property name="LOG_PATH" value="/data/html/logs/docmanager"/>
+    <property name="LOG_LEVEL" value="INFO"/>
+
+    <!-- 控制台输出日志 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</pattern>
+        </layout>
+    </appender>
+
+
+    <!-- common -->
+    <appender name="common" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_PATH}/docmanager-common.log</File>
+        <Encoding>${LOG_CHARSET}</Encoding>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${LOG_PATH}/docmanager-common-%d{yyyy-MM-dd}.%i.log
+            </FileNamePattern>
+            <!-- keep 30 days worth of history-->
+            <MaxHistory>30</MaxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- rollover daily or whenever the file size reaches 200MB -->
+                <maxFileSize>200MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <!-- dal -->
+    <appender name="dal" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_PATH}/docmanager-dal.log</File>
+        <Encoding>${LOG_CHARSET}</Encoding>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${LOG_PATH}/docmanager-dal-%d{yyyy-MM-dd}.%i.log
+            </FileNamePattern>
+            <!-- keep 30 days worth of history-->
+            <MaxHistory>30</MaxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- rollover daily or whenever the file size reaches 200MB -->
+                <maxFileSize>200MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+
+    <!-- biz -->
+    <appender name="biz" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_PATH}/docmanager-biz.log</File>
+        <Encoding>${LOG_CHARSET}</Encoding>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${LOG_PATH}/docmanager-biz-%d{yyyy-MM-dd}.%i.log
+            </FileNamePattern>
+            <!-- keep 30 days worth of history-->
+            <MaxHistory>30</MaxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- rollover daily or whenever the file size reaches 200MB -->
+                <maxFileSize>200MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <!-- access -->
+    <appender name="apiAccessAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_PATH}/docmanager-access.log</File>
+        <Encoding>${LOG_CHARSET}</Encoding>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${LOG_PATH}/docmanager-access-%d{yyyy-MM-dd}.%i.log
+            </FileNamePattern>
+            <!-- keep 30 days worth of history-->
+            <MaxHistory>30</MaxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- rollover daily or whenever the file size reaches 200MB -->
+                <maxFileSize>200MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <!-- integration -->
+    <appender name="integration" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_PATH}/docmanager-integ.log</File>
+        <Encoding>${LOG_CHARSET}</Encoding>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${LOG_PATH}/docmanager-integ-%d{yyyy-MM-dd}.%i.log
+            </FileNamePattern>
+            <!-- keep 30 days worth of history-->
+            <MaxHistory>30</MaxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- rollover daily or whenever the file size reaches 200MB -->
+                <maxFileSize>200MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <!-- core -->
+    <appender name="core" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_PATH}/docmanager-core.log</File>
+        <Encoding>${LOG_CHARSET}</Encoding>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${LOG_PATH}/docmanager-core-%d{yyyy-MM-dd}.%i.log
+            </FileNamePattern>
+            <!-- keep 30 days worth of history-->
+            <MaxHistory>30</MaxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- rollover daily or whenever the file size reaches 200MB -->
+                <maxFileSize>200MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <!-- error -->
+    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_PATH}/docmanager-error.log</File>
+        <Encoding>${LOG_CHARSET}</Encoding>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${LOG_PATH}/docmanager-error-%d{yyyy-MM-dd}.%i.log
+            </FileNamePattern>
+            <!-- keep 30 days worth of history-->
+            <MaxHistory>30</MaxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- rollover daily or whenever the file size reaches 200MB -->
+                <maxFileSize>200MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <!-- digest -->
+    <appender name="docmanager-DIGEST-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_PATH}/docmanager-digest.log</File>
+        <Encoding>${LOG_CHARSET}</Encoding>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${LOG_PATH}/docmanager-digest-%d{yyyy-MM-dd}.%i.log
+            </FileNamePattern>
+            <!-- keep 30 days worth of history-->
+            <MaxHistory>30</MaxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- rollover daily or whenever the file size reaches 200MB -->
+                <maxFileSize>200MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</Pattern>
+        </layout>
+    </appender>
+    
+     <!-- controller -->
+    <appender name="controller" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_PATH}/docmanager-controller.log</File>
+        <Encoding>${LOG_CHARSET}</Encoding>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${LOG_PATH}/docmanager-controller-%d{yyyy-MM-dd}.%i.log
+            </FileNamePattern>
+            <!-- keep 30 days worth of history-->
+            <MaxHistory>30</MaxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- rollover daily or whenever the file size reaches 200MB -->
+                <maxFileSize>200MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <!-- digest  -->
+    <logger name="com.zhaoyun.docmanager.common.template" additivity="false">
+        <level value="${LOG_LEVEL}"/>
+        <appender-ref ref="docmanager-DIGEST-APPENDER"/>
+        <appender-ref ref="error"/>
+    </logger>
+
+    <!-- commom package -->
+    <logger name="com.zhaoyun.docmanager.common" additivity="false">
+        <level value="${LOG_LEVEL}"/>
+        <appender-ref ref="common"/>
+        <appender-ref ref="error"/>
+    </logger>
+
+
+    <!-- dal package -->
+    <logger name="com.zhaoyun.docmanager.dal" additivity="false">
+        <level value="${LOG_LEVEL}"/>
+        <appender-ref ref="dal"/>
+        <appender-ref ref="error"/>
+    </logger>
+
+    <!-- api access logger -->
+    <logger name="apiAccessLogger" additivity="false">
+        <level value="${LOG_LEVEL}"/>
+        <appender-ref ref="apiAccessAppender"/>
+    </logger>
+
+    <!-- biz package -->
+    <logger name="com.zhaoyun.docmanager.biz" additivity="false">
+        <level value="${LOG_LEVEL}"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="biz"/>
+        <appender-ref ref="error"/>
+    </logger>
+
+
+    <!-- integration package -->
+    <logger name="com.zhaoyun.docmanager.integration" additivity="false">
+        <level value="${LOG_LEVEL}"/>
+        <appender-ref ref="integration"/>
+        <appender-ref ref="error"/>
+    </logger>
+
+    <!-- controller -->
+    <logger name="com.zhaoyun.docmanager.web" additivity="false">
+        <level value="${LOG_LEVEL}"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="controller"/>
+        <appender-ref ref="error"/>
+    </logger>
+    
+    <logger name="com.zhaoyun.docmanager.core" additivity="false">
+        <level value="${LOG_LEVEL}"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="core"/>
+        <appender-ref ref="error"/>
+    </logger>
+
+    <logger name="logback"/>
+
+    <root level="${LOG_LEVEL}">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="error"/>
+    </root>
+
+</configuration>

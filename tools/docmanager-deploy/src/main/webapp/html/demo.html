@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>API文档自动化DEMO</title>
+	<link href="../static/css/sui.min.css" rel="stylesheet" />
+	<link href="../static/css/sui-append.css" rel="stylesheet" />
+	<link href="../static/css/jquery.treetable.css" rel="stylesheet" type="text/css" />
+	<link href="../static/css/jquery.treetable.theme.default.css" rel="stylesheet" />
+	<link href="../static/css/select2.min.css" rel="stylesheet" />
+	<script src="../static/js/jquery-1.11.1.min.js"></script>
+	<script src="../static/js/jquery.treetable.js"></script>
+	<script src="../static/js/sui.min.js"></script>
+	<script src="../static/js/handlebars-v4.0.5.js"></script>
+	<script src="../static/js/select2.min.js"></script>
+	<link href="../static/css/style.css" rel="stylesheet" />
+	<style type="text/css">
+		
+	</style>
+</head>
+<body>
+	<div class="header">
+	    <div class="sui-container">
+	        <h1 class="logo">
+	          <a href="javascript:void(0);" target="_blank" title="API文档自动化工具">API文档自动化工具</a>
+	        </h1>
+	        <div class="search-input">
+	          <input type="search" id="search" placeholder="输入关键字...">
+	        </div>
+	     </div>
+	</div>
+	<div class="sui-container">
+	    <button data-toggle="modal" data-target="#addAppModal" data-keyboard="false" class="sui-btn btn-success btn-xlarge">添加应用</button>
+	    <button data-toggle="modal" data-target="#addVersionModal" data-keyboard="false" class="sui-btn btn-success btn-xlarge">添加版本</button>
+	</div>
+	<div class="sui-container">
+		<table id="nav1" class="treetable sui-table">
+			<tbody id="appNav">
+				<tr class="static" data-tt-id="static.0" ><td ><p>文档说明</p></td></tr>
+				<tr id="commentRule" class="static isLeaf" data-tt-id="static.1" data-tt-parent-id="static.0"><td ><p>注释规范</p></td></tr>
+				<tr id="operateFlow" class="static isLeaf" data-tt-id="static.2" data-tt-parent-id="static.0"><td ><p>操作流程</p></td></tr>
+				<tr class="apps" data-tt-id="app.0" ><td ><p>应用</p></td></tr>
+			</tbody>
+		</table>
+
+		<div id="infoBody" class="infoBody">
+
+		</div>
+		<div id="goTop" class="goTop" style="display: block;"><a href="javascript:;">&nbsp;</a></div>
+		<div class="sui-modal-backdrop fade in" style="z-index: 9999; display: none; background: rgb(0, 0, 0);">
+			<div class="sui-loading loading-large center"> <i class="sui-icon icon-pc-loading"></i>
+			</div>
+		</div>
+	</div>
+	<!-- 添加应用弹出框 start -->
+	<div id="addAppModal" tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" data-dismiss="modal" aria-hidden="true" class="sui-close">×</button>
+	        <h4 id="myModalLabel" class="modal-title">添加应用</h4>
+	      </div>
+	      <div class="modal-body">
+	      	<form class="sui-form form-horizontal sui-validate">
+			  <div class="control-group">
+			    <label for="inputEmail" class="control-label">系统名：</label>
+			    <div class="controls">
+			      <input type="text" id="appName"  data-rules='required'>
+			      <div class="sui-msg msg-naked msg-info"><i class="msg-icon"></i>
+				      <div class="msg-con">必填</div>
+				  </div>
+			    </div>
+			  </div>
+			  <div class="control-group">
+			    <label for="inputPassword" class="control-label">Groupid：</label>
+			    <div class="controls">
+			      <input type="text" id="appGroupid"  data-rules='required'>
+			      <div class="sui-msg msg-naked msg-info"><i class="msg-icon"></i>
+				      <div class="msg-con">必填</div>
+				  </div>
+			    </div>
+			  </div>
+			  <div class="control-group">
+			    <label for="inputPassword" class="control-label">Artifactid：</label>
+			    <div class="controls">
+			      <input type="text" id="appArtifactid"  data-rules='required'>
+			      <div class="sui-msg msg-naked msg-info"><i class="msg-icon"></i>
+				      <div class="msg-con">必填</div>
+				  </div>
+			    </div>
+			  </div>
+			   <div class="control-group">
+			    <label class="control-label">备注：</label>
+			    <div class="controls">
+			      <textarea rows="3" cols="30" class="input-block-level" id="appDesc"  data-rules='required'></textarea>
+			      <div class="sui-msg msg-naked msg-info"><i class="msg-icon"></i>
+				      <div class="msg-con">必填</div>
+				  </div>
+			    </div>
+			  </div>
+			  <div class="control-group">
+			    <label class="control-label"></label>
+			    <div class="controls">
+			     	<button type="button" data-ok="modal" class="sui-btn btn-primary btn-large">保存</button>
+        			<button type="button" data-dismiss="modal" class="sui-btn btn-default btn-large">取消</button>
+			    </div>
+			  </div>
+			</form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- 添加应用弹出框end  -->
+	
+	<!-- 添加版本 start -->
+	<div id="addVersionModal" role="dialog" data-hasfoot="false" class="sui-modal hide fade">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" data-dismiss="modal" aria-hidden="true" class="sui-close">×</button>
+	        <h4 id="myModalLabel" class="modal-title">添加应用</h4>
+	      </div>
+	      <div class="modal-body">
+	      	<form class="sui-form form-horizontal sui-validate">
+			  <div class="control-group">
+			    <label for="inputEmail" class="control-label">系统名：</label>
+			    <div class="controls">
+				    <select id="appNameSelect" data-rules='required'>
+				    </select>
+				    <div class="sui-msg msg-naked msg-info"><i class="msg-icon"></i>
+				      <div class="msg-con">必填</div>
+				 	</div>
+			    </div>
+			  </div>
+			  <div class="control-group">
+			    <label for="inputPassword" class="control-label">版本：</label>
+			    <div class="controls">
+			    	<select id="appVersionSelect" data-rules='required' >
+				    </select>
+			      <div class="sui-msg msg-naked msg-info"><i class="msg-icon"></i>
+				      <div class="msg-con">必填</div>
+				  </div>
+			    </div>
+			  </div>
+			   <div class="control-group">
+			    <label class="control-label">备注：</label>
+			    <div class="controls">
+			      <textarea rows="3" cols="30" class="input-block-level" id="versionDesc" data-rules='required'></textarea>
+			    </div>
+			    <div class="sui-msg msg-naked msg-info"><i class="msg-icon"></i>
+				      <div class="msg-con">必填</div>
+				 </div>
+			  </div>
+			  <div class="control-group">
+			    <label class="control-label"></label>
+			    <div class="controls">
+			      	<button type="button" data-ok="modal" class="sui-btn btn-primary btn-large">保存</button>
+        			<button type="button" data-dismiss="modal" class="sui-btn btn-default btn-large">取消</button>
+			    </div>
+			  </div>
+			</form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- 添加版本 end  -->
+</body>
+<!-- 模版-->
+<script id="welcomeTpl" type="text/x-handlebars-template">
+	<h1>{{data}}</h1>
+</script>
+<script id="versionTableTpl" type="text/x-handlebars-template">
+	<table id="nav2" class="treetable sui-table">
+		<thead>
+			<th><p>版本/服务/API</p></th>
+			<th class="diffTh"><a id="diff" href="javascript:void(0);" class="sui-btn btn-small btn-info disabled">对比</a></th>
+		</thead>
+		<tbody id="treeBody">
+	
+		</tbody>
+	</table>
+</script>
+<script id="appTpl" type="text/x-handlebars-template">
+	{{#each data}}
+	<tr class="app isLeaf" appId="{{id}}" data-tt-id="app.{{id}}" data-tt-parent-id="app.0"><td ><p>{{name}}</p><div></div></td></tr>
+	{{/each}}
+</script>
+<script id="versionTpl" type="text/x-handlebars-template">
+	{{#each data}}
+		<tr data-tt-id="version.{{id}}" class="branch collapsed version" appVersionId="{{id}}">
+			<td><p>{{version}}</p></td>
+			<td class="diffTh"><input type="checkbox" class="versionCheck" appVersion="{{version}}" appId="{{appId}}"></td>
+		</tr>
+	{{/each}}
+	{{#if hasMore}}
+		<tr class="loadMore" appId="{{data.[0].appId}}"><td colspan=2 style="text-align:center;"><p>...</p></td></tr>
+	{{else}}
+	{{/if}}
+</script>
+<script id="serviceTpl" type="text/x-handlebars-template">
+	{{#each data}}
+		<tr  data-tt-id="service.{{id}}" class="branch collapsed service" data-tt-parent-id="version.{{appVersionId}}" serviceId="{{id}}">
+			<td><p>{{name}}</p></td>
+			<td></td>
+		</tr>
+	{{/each}}
+</script>
+<script id="apiTpl" type="text/x-handlebars-template">
+	{{#each data}}
+		<tr  data-tt-id="api.{{id}}" class="leaf collapsed api isLeaf" data-tt-parent-id="service.{{serviceId}}" apiId="{{id}}">
+			<td><p>{{name}}</p></td>
+			<td></td>
+		</tr>
+	{{/each}}
+</script>
+<script id="apiInfoTpl" type="text/x-handlebars-template">
+	<div class="sui-container">
+		<h3>基本信息</h3>
+		<table id="info" class="sui-table table-sideheader table-nobordered ">
+			<tbody>
+				<tr>
+					<th>名称</th>
+					<td>{{name}}</td>
+				</tr>
+				<tr>
+					<th>全名</th>
+					<td>{{fullName}}</td>
+				</tr>
+				<tr>
+					<th>说明</th>
+					<td>{{desc}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="sui-container">
+		<h3>入参</h3>
+		<table id="paramin" class="sui-table table-bordered treetable">
+			<thead>
+				<tr>
+					<th>参数名</th>
+					<th>java类</th>
+					<th>说明</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#each paramIn}}
+					<tr data-tt-id="paramIn.{{id}}" class="{{isLeaf}} collapsed paramIn" data-tt-parent-id="paramIn.{{pid}}">
+						<td>{{fieldName}}</td>
+						<td>{{classType}}</td>
+						<td>{{fieldComment}}</td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
+	<div class="sui-container">
+		<h3>出参</h3>
+		<table id="paramout" class="sui-table table-bordered treetable">
+			<thead>
+				<tr>
+					<th>参数名</th>
+					<th>java类</th>
+					<th>说明</th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#each paramOut}}
+					<tr data-tt-id="paramOut.{{id}}" class="{{isLeaf}} collapsed paramOut" data-tt-parent-id="paramOut.{{pid}}">
+						<td>{{fieldName}}</td>
+						<td>{{classType}}</td>
+						<td>{{fieldComment}}</td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
+</script>
+<script id="diffTpl" type="text/x-handlebars-template">
+	<div class="sui-container">
+		<h1>
+			对比概要({{appName}} : {{version1}} -> {{version2}})
+			<a  href="javascript:selectText('infoBody');" class="sui-btn btn-small btn-info">全选</a>
+		</h1>
+		<div class="sui-container">
+			<table class="sui-table table-bordered">
+				<tbody>
+					<tr>
+						<th>增加的API</th>
+						<td>
+							{{#each addApiList}}
+								<a href="#{{serviceName}}.{{apiName}}">{{serviceName}}.{{apiName}}</a>
+							{{/each}}
+						</td>
+						<th>共计:{{addSize}}</th>
+					</tr>
+					<tr>
+						<th>修改的API</th>
+						<td>
+							{{#each changeApiList}}
+								<a href="#{{serviceName}}.{{apiName}}">{{serviceName}}.{{apiName}}</a>
+							{{/each}}
+						</td>
+						<th>共计:{{changeSize}}</th>
+					</tr>
+					<tr>
+						<th>删除的API</th>
+						<td>
+							{{#each deleteApiList}}
+								<a href="#{{serviceName}}.{{apiName}}">{{serviceName}}.{{apiName}}</a>
+							{{/each}}
+						</td>
+						<th>共计:{{deleteSize}}</th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="sui-container">
+		<h1>增加的API</h1>
+		<hr/>
+		<div class="sui-container">
+			{{#each addApiList}}
+				<h3 id="{{serviceName}}.{{apiName}}">{{serviceName}}.{{apiName}}({{desc2}})</h3>
+				<table class="sui-table table-bordered treetable diffTable">
+					<caption>入参</caption>
+					<thead>
+						<tr style="text-align:center;">
+							<th colspan="3" class="addTr versionTh">{{../version2}}({{desc2}})</th>
+						</tr>
+						<tr>
+							<th>参数名</th>
+							<th>java类</th>
+							<th>说明</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each paramIn}}
+							<tr data-tt-id="diffParamIn.{{id}}" class="{{isLeaf}} collapsed addTr" data-tt-parent-id="diffParamIn.{{pid}}" >
+								<td>{{name}}</td>
+								<td>{{type2}}</td>
+								<td>{{desc2}}</td>
+							</tr>
+						{{/each}}
+					</tbody>
+				</table>
+				<table class="sui-table table-bordered treetable diffTable">
+					<caption>出参</caption>
+					<thead>
+						<tr style="text-align:center;">
+							<th colspan="3" class="addTr versionTh">{{../version2}}({{desc2}})</th>
+						</tr>
+						<tr>
+							<th>参数名</th>
+							<th>java类</th>
+							<th>说明</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each paramOut}}
+							<tr data-tt-id="diffParamOut.{{id}}" class="{{isLeaf}} collapsed addTr" data-tt-parent-id="diffParamOut.{{pid}}" >
+								<td>{{name}}</td>
+								<td>{{type2}}</td>
+								<td>{{desc2}}</td>
+							</tr>
+						{{/each}}
+					</tbody>
+				</table>
+				<hr/>
+			{{/each}}
+		</div>
+	</div>
+	<div class="sui-container">
+		<h1>修改的API</h1>
+		<hr/>
+		<div class="sui-container">
+			{{#each changeApiList}}
+				<h3 id="{{serviceName}}.{{apiName}}">{{serviceName}}.{{apiName}}({{desc2}})</h3>
+				<table class="sui-table table-bordered treetable diffTable changeApiTable">
+					<caption>入参</caption>
+					<thead>
+						<tr class="changeApiTr">
+							<th></th>
+							<th colspan="2" class="versionTh">{{../version1}}(<span class="diffDescTh">{{desc1}}</span>)</th>
+							<th colspan="2" class="versionTh">{{../version2}}(<span class="diffDescTh">{{desc2}}</span>)</th>
+						</tr>
+						<tr>
+							<th>参数名</th>
+							<th>java类</th>
+							<th>说明</th>
+							<th>java类</th>
+							<th>说明</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each paramIn}}
+							<tr data-tt-id="diffParamIn.{{id}}" class="{{isLeaf}} collapsed changeApiTr" data-tt-parent-id="diffParamIn.{{pid}}">
+								<td class="diffNameTd">{{name}}</td>
+								<td class="diffTypeTd">{{type1}}</td>
+								<td class="diffDescTd">{{desc1}}</td>
+								<td class="diffTypeTd">{{type2}}</td>
+								<td class="diffDescTd">{{desc2}}</td>
+							</tr>
+						{{/each}}
+					</tbody>
+				</table>
+				<table class="sui-table table-bordered treetable diffTable changeApiTable">
+					<caption>出参</caption>
+					<thead>
+						<tr class="changeApiTr">
+							<th></th>
+							<th colspan="2" class="versionTh">{{../version1}}(<span class="diffDescTh">{{desc1}}</span>)</th>
+							<th colspan="2" class="versionTh">{{../version2}}(<span class="diffDescTh">{{desc2}}</span>)</th>
+						</tr>
+						<tr>
+							<th>参数名</th>
+							<th>java类</th>
+							<th>说明</th>
+							<th>java类</th>
+							<th>说明</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each paramOut}}
+							<tr data-tt-id="diffParamOut.{{id}}" class="{{isLeaf}} collapsed changeApiTr" data-tt-parent-id="diffParamOut.{{pid}}">
+								<td class="diffNameTd">{{name}}</td>
+								<td class="diffTypeTd">{{type1}}</td>
+								<td class="diffDescTd">{{desc1}}</td>
+								<td class="diffTypeTd">{{type2}}</td>
+								<td class="diffDescTd">{{desc2}}</td>
+							</tr>
+						{{/each}}
+					</tbody>
+				</table>
+				<hr/>
+			{{/each}}
+		</div>
+	</div>
+	<div class="sui-container">
+		<h1>删除的API</h1>
+		<hr/>
+		<div class="sui-container">
+			{{#each deleteApiList}}
+				<h3 id="{{serviceName}}.{{apiName}}">{{serviceName}}.{{apiName}}({{desc1}})</h3>
+				<table class="sui-table table-bordered treetable diffTable" >
+					<caption>入参</caption>
+					<thead>
+						<tr style="text-align:center;">
+							<th colspan="3" class="deleteTr versionTh">{{../version1}}({{desc1}})</th>
+						</tr>
+						<tr>
+							<th>参数名</th>
+							<th>java类</th>
+							<th>说明</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each paramIn}}
+							<tr data-tt-id="diffParamIn.{{id}}" class="{{isLeaf}} collapsed deleteTr" data-tt-parent-id="diffParamIn.{{pid}}" >
+								<td>{{name}}</td>
+								<td>{{type1}}</td>
+								<td>{{desc1}}</td>
+							</tr>
+						{{/each}}
+					</tbody>
+				</table>
+				<table class="sui-table table-bordered treetable diffTable" > 
+					<caption>出参</caption>
+					<thead>
+						<tr style="text-align:center;">
+							<th colspan="3" class="deleteTr versionTh">{{../version1}}({{desc1}})</th>
+						</tr>
+						<tr>
+							<th>参数名</th>
+							<th>java类</th>
+							<th>说明</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each paramOut}}
+							<tr data-tt-id="diffParamOut.{{id}}" class="{{isLeaf}} collapsed deleteTr" data-tt-parent-id="diffParamOut.{{pid}}" >
+								<td>{{name}}</td>
+								<td>{{type1}}</td>
+								<td>{{desc1}}</td>
+							</tr>
+						{{/each}}
+					</tbody>
+				</table>
+				<hr/>
+			{{/each}}
+		</div>
+	</div>
+</script>
+<script id="appSelectTpl" type="text/x-handlebars-template">
+	{{#each data}}
+		<option value="{{name}}" groupId="{{groupId}}" artifactId="{{artifactId}}">{{name}}</option>
+	{{/each}}
+</script>
+<script id="versionSelectTpl" type="text/x-handlebars-template">
+	{{#each data}}
+		<option value="{{this}}">{{this}}</option>
+	{{/each}}
+</script>
+<!-- app列表-->
+<script>
+	var loadAppList = function(){
+		var myTemplate = Handlebars.compile($("#appTpl").html());
+		$(".sui-modal-backdrop").show();
+		$.ajax({
+            url: "/app/all",
+            type: "POST",
+            async: false,
+            dataType: "json",
+            contentType:"application/json",
+            success: function(data){
+                $(".sui-modal-backdrop").hide();
+                if(data.success && data.stateCode.code == 0){	
+                	nav1.treetable("unloadBranch",nav1.treetable("node", "app.0"));
+                	nav1.treetable("loadBranch", null, myTemplate(data));
+                	nav1.treetable("expandNode", "app.0");
+                	infoBodyInit();
+                }else {
+                    $.alert({
+                        width:'small',
+                        body:data.stateCode.desc
+                    });
+                }
+            }
+        });
+	};
+
+	var infoBodyInit = function(){
+		var myTemplate = Handlebars.compile($("#welcomeTpl").html());
+		$("#infoBody").html(myTemplate({data:"欢迎体验本demo"}));
+	};
+
+	var init = function(){
+		nav1.treetable(
+			{ 
+				expandable: true
+			}
+		);
+		loadAppList();
+	};
+</script>
+
+<!-- 树形导航栏-->
+<script>
+	var table;
+	var nav1 = $("#nav1");
+	var nowPage = 1;
+	var nowAppId;
+
+	var loadVersionList = function(appId){
+		var myTemplate = Handlebars.compile($("#versionTpl").html());
+		$(".sui-modal-backdrop").show();
+		if(appId != nowAppId){
+			nowPage = 1;
+        }
+		$.ajax({
+            url: "/version/page",
+            type: "POST",
+            async: false,
+            data: '{"appId":'+appId+',"sortColumn":"version","pageNo":'+nowPage+'}',
+            dataType: "json",
+            contentType:"application/json",
+            success: function(data){
+                $(".sui-modal-backdrop").hide();
+                if(data.success && data.stateCode.code == 0){
+                	if(appId != nowAppId){
+                		nowAppId=appId;
+                		$("#treeBody").html("");
+                	}
+                	if(nowPage >= data.data.pages){
+                		data.data.hasMore = false;
+                	}else{
+                		data.data.hasMore = true;
+                		nowPage++;
+                	}
+                	try{
+                		table.treetable("loadBranch", null, myTemplate(data.data));
+                	}catch(e){
+                		console.log(e);
+                	}
+                }else {
+                    $.alert({
+                        width:'small',
+                        body:data.stateCode.desc
+                    });
+                }
+
+            }
+        });
+	};
+
+	var loadServiceList = function(node){
+		var appVersionId = node.row.attr("appVersionId");
+		var myTemplate = Handlebars.compile($("#serviceTpl").html());
+		$(".sui-modal-backdrop").show();
+		$.ajax({
+            url: "/service/list",
+            type: "POST",
+            data: '{"appVersionId":'+appVersionId+',"sortColumn":"full_name","sortType":"asc"}',
+            dataType: "json",
+            contentType:"application/json",
+            success: function(data){
+                $(".sui-modal-backdrop").hide();
+                if(data.success && data.stateCode.code == 0){
+                	table.treetable("loadBranch", node, myTemplate(data));
+                }else {
+                    $.alert({
+                        width:'small',
+                        body:data.stateCode.desc
+                    });
+                }
+
+            }
+        });
+	};
+
+	var loadApiList = function(node){
+		var serviceId = node.row.attr("serviceId");
+		var myTemplate = Handlebars.compile($("#apiTpl").html());
+		$(".sui-modal-backdrop").show();
+		$.ajax({
+            url: "/api/list/base",
+            type: "POST",
+            data: '{"serviceId":'+serviceId+',"sortColumn":"name","sortType":"asc"}',
+            dataType: "json",
+            contentType:"application/json",
+            success: function(data){
+                $(".sui-modal-backdrop").hide();
+                if(data.success && data.stateCode.code == 0){
+                	table.treetable("loadBranch", node, myTemplate(data));
+                }else {
+                    $.alert({
+                        width:'small',
+                        body:data.stateCode.desc
+                    });
+                }
+
+            }
+        });
+	};
+</script>
+
+<!-- 对比-->
+<script>
+	var diff_param_id;
+	var loadDiff = function(appId,version1,version2){
+		var myTemplate = Handlebars.compile($("#diffTpl").html());
+		$(".sui-modal-backdrop").show();
+		$.ajax({
+            url: "/api/pom/diff",
+            type: "POST",
+            data: {appId:appId,version1:version1,version2:version2},
+            dataType: "json",
+            success: function(data){
+                $(".sui-modal-backdrop").hide();
+                if(data.success && data.stateCode.code == 0){
+                	var addApiList = data.data.addApiList;
+                	var changeApiList = data.data.changeApiList;
+                	var deleteApiList = data.data.deleteApiList;
+
+                	loadDiffApiList(addApiList);
+                	loadDiffApiList(changeApiList);
+                	loadDiffApiList(deleteApiList);
+                	data.data.addSize=addApiList.length;
+                	data.data.changeSize=changeApiList.length;
+                	data.data.deleteSize=deleteApiList.length;
+
+                	$("#infoBody").html(myTemplate(data.data));
+                	$(".diffTable").treetable(
+						{ 
+							expandable: true,
+							initialState:"expanded"
+						}
+					);
+					$(".changeApiTable").each(function(){
+					  	var changeApiTrs = $(this).find(".changeApiTr");
+					  	changeApiTrs.each(function(){
+					  		var diffNameTd  = $(this).find(".diffNameTd");
+					  		var diffTypeTds = $(this).find(".diffTypeTd");
+					  		var diffDescTds = $(this).find(".diffDescTd");
+					  		var diffDescThs =  $(this).find(".diffDescTh");
+					  		if(diffTypeTds.size() == 2){
+					  			if(diffTypeTds[0].innerHTML == diffTypeTds[1].innerHTML){
+					  				diffTypeTds.addClass("defaultColor");
+					  				diffNameTd.addClass("defaultColor");
+					  			}else if(diffTypeTds[0].innerHTML == ""){
+					  				diffTypeTds.addClass("addTr");
+					  				diffNameTd.addClass("addTr");
+					  			}else if(diffTypeTds[1].innerHTML == ""){
+									diffTypeTds.addClass("deleteTr");
+									diffNameTd.addClass("deleteTr");
+					  			}else{
+					  				diffTypeTds.addClass("changeTr");
+					  				diffNameTd.addClass("changeTr");
+					  			}
+					  		}
+					  		if(diffDescTds.size() == 2){
+					  			if(diffDescTds[0].innerHTML == diffDescTds[1].innerHTML){
+					  				diffDescTds.addClass("defaultColor");
+					  			}else if(diffDescTds[0].innerHTML == ""){
+					  				diffDescTds.addClass("addTr");
+					  			}else if(diffDescTds[1].innerHTML == ""){
+									diffDescTds.addClass("deleteTr");
+					  			}else{
+					  				diffDescTds.addClass("changeTr");
+					  			}
+					  		}
+					  		if(diffDescThs.size() == 2){
+					  			if(diffDescThs[0].innerHTML == diffDescThs[1].innerHTML){
+					  				diffDescThs.addClass("defaultColor");
+					  			}else if(diffDescThs[0].innerHTML == ""){
+					  				diffDescThs.addClass("addTr");
+					  			}else if(diffDescThs[1].innerHTML == ""){
+									diffDescThs.addClass("deleteTr");
+					  			}else{
+					  				diffDescThs.addClass("changeTr");
+					  			}
+					  		}
+					  	});
+					});
+					
+                }else {
+                    $.alert({
+                        width:'small',
+                        body:data.stateCode.desc
+                    });
+                }
+
+            }
+        });
+	};
+
+	var loadDiffApiList = function(apiList){
+		for (var i = 0; i < apiList.length; i++) {
+    		var paramIn = apiList[i].paramIn;
+    		diff_param_id = 1;
+        	apiList[i].paramIn = loadDiffParamList(paramIn);
+        	var paramOut = [];
+        	var paramOutObj = apiList[i].paramOut;
+        	if(!!paramOutObj){
+        		paramOut.push(paramOutObj);
+        	}
+        	diff_param_id = 1;
+        	apiList[i].paramOut = loadDiffParamList(paramOut);
+    	}
+	};
+
+	var loadDiffParamList = function(paramList){
+		var paramArr = new Array();
+		for (var i = 0; i < paramList.length; i++) {
+			loadDiffParam(paramArr,paramList[i],0);
+		}
+    	return paramArr;
+	};
+
+	var loadDiffParam = function(paramArr,param,pid){
+		var field = {};
+		field.name = param.name;
+		field.type1 = param.type1;
+		field.type2 = param.type2;
+		field.desc1 = param.desc1;
+		field.desc2 = param.desc2;
+		if(param.diffType == 1){
+			field.add = true;
+		}else if(param.diffType == 2){
+			field.delete = true;
+		}else if(param.diffType == 3){
+			field.update = true;
+		}else{
+			field.same = true;
+		}
+		field.id=diff_param_id;
+		var id = field.id;
+		field.pid = pid;
+		diff_param_id++;
+		paramArr.push(field);
+		if(!!param.childList){
+			for (var i = 0; i < param.childList.length; i++) {
+				loadDiffParam(paramArr,param.childList[i],id);
+			}
+		}else{
+			field.isLeaf = "isLeaf";
+		}
+		
+	};
+</script>
+
+<!-- api详情-->
+<script>
+	var param_id;
+	var loadApi = function(apiId){
+		var myTemplate = Handlebars.compile($("#apiInfoTpl").html());
+		$(".sui-modal-backdrop").show();
+		$.ajax({
+            url: "/api/info",
+            type: "POST",
+            data: {id:apiId},
+            dataType: "json",
+            success: function(data){
+                $(".sui-modal-backdrop").hide();
+                if(data.success && data.stateCode.code == 0){
+                	var paramIn = $.parseJSON(data.data.paramIn);
+                	param_id = 1;
+                	data.data.paramIn = loadParamList(paramIn);
+                	var paramOut = [];
+                	var paramOutObj = $.parseJSON(data.data.paramOut);
+                	if(!!paramOutObj){
+                		paramOut.push(paramOutObj);
+                	}
+                	param_id = 1;
+                	data.data.paramOut = loadParamList(paramOut);
+                	$("#infoBody").html(myTemplate(data.data));
+                	$("#paramin").treetable(
+						{ 
+							expandable: true,
+							initialState:"expanded"
+						}
+					);
+					$("#paramout").treetable(
+						{ 
+							expandable: true,
+							initialState:"expanded"
+						}
+					);
+                }else {
+                    $.alert({
+                        width:'small',
+                        body:data.stateCode.desc
+                    });
+                }
+            }
+        });
+	};
+
+	var loadParamList = function(paramList){
+		var paramArr = new Array();
+		for (var i = 0; i < paramList.length; i++) {
+			loadParam(paramArr,paramList[i],0);
+		}
+    	return paramArr;
+	};
+
+	var loadParam = function(paramArr,param,pid){
+		var field = {};
+		field.fieldName = param.fieldName;
+		field.classType = param.classType;
+		field.fieldComment = param.fieldComment;
+		field.id=param_id;
+		var id = field.id;
+		field.pid = pid;
+		param_id++;
+		paramArr.push(field);
+		if(!!param.fieldObjs){
+			for (var i = 0; i < param.fieldObjs.length; i++) {
+				loadParam(paramArr,param.fieldObjs[i],id);
+			}
+		}else{
+			field.isLeaf = "isLeaf";
+		}
+		
+	}
+</script>
+
+<!-- 事件绑定-->
+<script>
+    $(function () {
+
+		$("body").on("click",".loadMore",function(){
+			loadVersionList($(this).attr("appId"));
+			$(this).remove();
+		});
+
+		$("#appNav").on("click",".app",function(){
+			if(!$(this).hasClass("chosed")){
+				$(".app").removeClass("chosed");
+				$(this).addClass("chosed");
+				var myTemplate = Handlebars.compile($("#versionTableTpl").html());
+				$("#nav2").remove();
+				$(this).find("div").append(myTemplate());
+				table = $("#nav2");
+				table.treetable(
+					{ 
+						expandable: true,
+						clickableNodeNames: true,
+						onNodeExpand:function(){
+							var node = this;
+							if(!node.isBranchNode()){
+								if(node.row.hasClass("version")){
+									loadServiceList(node);
+								}else if(node.row.hasClass("service")){
+									loadApiList(node);
+								}
+							}
+						}
+					}
+				);
+				nowPage=1;
+				loadVersionList($(this).attr("appId"));
+				$(".versionCheck:lt(2)").click();
+			}
+		});
+
+		$("body").on("click",".versionCheck",function(){
+			var nowCheck = $(this);
+			var checkSize = $(".versionCheck:checked").size();
+			if(checkSize>2){
+				$(".versionCheck:checked").each(function(){
+				   	if($(this).attr("appVersion") != nowCheck.attr("appVersion")){
+				   		$(this).attr("checked",false);
+				   		return false;
+				   	}
+				 });	
+			}else if(checkSize<2){
+				$("#diff").addClass("disabled");
+			}else{
+				$("#diff").removeClass("disabled");
+			}
+			return true;
+		});
+
+		$("body").on("click",".api",function(){
+			var apiId = $(this).attr("apiId");
+			$(".api").removeClass("selected");
+			$(this).addClass("selected");
+			loadApi(apiId);
+		});
+		
+		$("body").on("click","#commentRule",function(){
+			var myTemplate = Handlebars.compile($("#welcomeTpl").html());
+			$("#infoBody").html(myTemplate({data:"注释规范"}));
+		});
+
+		$("body").on("click","#operateFlow",function(){
+			var myTemplate = Handlebars.compile($("#welcomeTpl").html());
+			$("#infoBody").html(myTemplate({data:"操作流程"}));
+		});
+
+		$("body").on("click","#diff",function(){
+			if(!$(this).hasClass("disabled")){
+				var version1 = $(".versionCheck:checked:first").attr("appVersion");
+				var version2 = $(".versionCheck:checked:last").attr("appVersion");
+				var appId1 = $(".versionCheck:checked:first").attr("appId");
+				var appId2 = $(".versionCheck:checked:last").attr("appId");
+				if(appId1 == appId2 && version1 != version2){
+					//低版本在前，高版本在后
+					loadDiff(appId1,version2,version1);
+				}
+			}	
+		});
+
+		$("#addAppModal").on("okHide",function(){
+			var appName = $("#appName").val();
+			var appGroupid = $("#appGroupid").val(); 
+			var appArtifactid = $("#appArtifactid").val(); 
+			var appDesc = $("#appDesc").val(); 
+			if(appName == ''){
+				return false;
+			}
+			if(appGroupid == ''){
+				return false;
+			}
+			if(appArtifactid == ''){
+				return false;
+			}
+			if(appDesc == ''){
+				return false;
+			}
+			
+			$(".sui-modal-backdrop").show();
+			$.ajax({
+	            url: "/app/addApp",
+	            type: "POST",
+	            data: {name:appName,groupId:appGroupid,artifactId:appArtifactid,desc:appDesc},
+	            dataType: "json",
+	            success: function(data){
+	                $(".sui-modal-backdrop").hide();
+	                if(data.success && data.stateCode.code == 0){
+	                	loadAppList();
+	                }else {
+	                    $.alert({
+	                        width:'small',
+	                        body:data.stateCode.desc
+	                    });
+	                }
+	            }
+	        });
+		});
+		
+		$('#addVersionModal').on('shown', function(e){
+			var myTemplate = Handlebars.compile($("#appSelectTpl").html());
+			$.ajax({
+	            url: "/app/all",
+	            type: "POST",
+	            success: function(data){
+	            	if(data.success && data.stateCode.code == 0){
+	                	$("#appNameSelect").empty().append(myTemplate(data));
+	                	$("#appNameSelect").change();
+	                }else {
+	                    $.alert({
+	                        width:'small',
+	                        body:data.stateCode.desc
+	                    });
+	                }	
+	            }
+	        });
+		});
+
+		$('body').on('change',"#appNameSelect", function(e){
+			var myTemplate = Handlebars.compile($("#versionSelectTpl").html());
+			var artifactId = $("#appNameSelect").find("option:selected").attr("artifactId");
+			var groupId = $("#appNameSelect").find("option:selected").attr("groupId");
+			$.ajax({
+	            url: "/version/all",
+	            type: "POST",
+	            data: {groupId:groupId,artifactId:artifactId},
+	            success: function(data){
+	            	if(data.success && data.stateCode.code == 0){
+	                	$("#appVersionSelect").empty().append(myTemplate(data));
+	                	$("#appVersionSelect").change();
+	                }else {
+	                    $.alert({
+	                        width:'small',
+	                        body:data.stateCode.desc
+	                    });
+	                }	
+	            }
+	        });
+		});
+
+		$('body').on('change',"#appVersionSelect", function(e){
+			$("#versionDesc").val($(this).val()); 
+		});
+
+		$('#addVersionModal').on('okHide', function(e){
+			var appName = $("#appNameSelect").val();
+			var appVersion = $("#appVersionSelect").val(); 
+			var versionDesc = $("#versionDesc").val(); 
+			if(appVersion == ''){
+				return false;
+			}
+			if(versionDesc == ''){
+				return false;
+			}
+			$(".sui-modal-backdrop").show();
+			$.ajax({
+	            url: "/version/addVersion",
+	            type: "POST",
+	            data: {name:appName,version:appVersion,desc:versionDesc},
+	            dataType: "json",
+	            success: function(data){
+	            	$(".sui-modal-backdrop").hide();
+	            	if(data.success && data.stateCode.code == 0){
+	                	loadAppList();
+	                }else {
+	                    $.alert({
+	                        width:'small',
+	                        body:data.stateCode.desc
+	                    });
+	                }
+	            }
+	        });
+
+		});
+		
+		$("#appNameSelect").select2();
+		$("#appVersionSelect").select2();
+		init();
+
+    });
+</script>
+<!-- 返回顶部-->
+<script type="text/javascript">
+  var $top = $("#goTop");
+  $top.click(function() {
+    $("body, html").animate({scrollTop: 0});
+  });
+  function selectText(element) {
+    var text = document.getElementById(element);
+    if (document.body.createTextRange) {
+        var range = document.body.createTextRange();
+        range.moveToElementText(text);
+        range.select();
+    } else if (window.getSelection) {
+        var selection = window.getSelection();
+        var range = document.createRange();
+        range.selectNodeContents(text);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+  }
+</script>
+</html>

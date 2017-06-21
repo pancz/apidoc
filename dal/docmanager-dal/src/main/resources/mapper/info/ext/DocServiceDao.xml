@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhaoyun.docmanager.dal.dao.ext.DocServiceDao" >
+
+	<select id="queryAllByAppVersionId" resultMap="com.zhaoyun.docmanager.dal.dao.MBGDocServiceDao.BaseResultMap">
+		select
+		<include refid="com.zhaoyun.docmanager.dal.dao.MBGDocServiceDao.Base_Column_List" />
+		from `doc_service`
+		where `app_version_id` = #{appVersionId,jdbcType=INTEGER}
+		<if test="isDeprecated != null">
+			and `is_deprecated` = #{isDeprecated}
+		</if>
+		<if test="sortColumn != null and sortColumn != ''">
+			ORDER BY ${sortColumn}
+			<if test="sortType != null and sortType != ''">
+				${sortType}
+			</if>
+		</if>
+	</select>
+	
+	<delete id="batchDeleteById">
+	    delete from doc_api
+	    where id in
+	    <foreach collection="docServiceList" index="index" item="service" open="(" separator="," close=")">
+			#{service.id}
+		</foreach>
+  	</delete>
+</mapper>
